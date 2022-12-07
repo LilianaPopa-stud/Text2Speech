@@ -29,5 +29,7 @@ def save_and_play(entry_text):
             counter += 1
     speech.save("./output/" + str(counter) + ".mp3")
     os.system("afplay ./output/" + str(counter) + ".mp3")
+    print("Saved and played!")
+
 
 root.mainloop()

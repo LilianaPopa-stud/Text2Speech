@@ -22,12 +22,11 @@ def text_to_speech(source_dir_path, output_path):
                     for line in text:
                         # convert text to speech
                         language = detect_language(line)
-                        if language == 'so':
-                            language = 'ro'
                         try:
                             speech = gTTS(text=line, lang=language, slow=False)
                             speech.save(output_path + str(counter) + '.mp3')
                             counter += 1
+                            print('Saved: ' + output_path + str(counter) + '.mp3')
                         except:
                             print('Error in converting text to speech or saving file')
 
