@@ -1,7 +1,14 @@
 import tkinter as tk
-import main
 from gtts import gTTS
 import os
+from langdetect import detect
+
+def detect_language(line):
+    try:
+        return detect(line)
+    except:
+        return 'en'
+
 
 root = tk.Tk()
 root.title("Text2Speech")
@@ -20,16 +27,32 @@ button = tk.Button(root, text="Save&Play!", font=("Arial", 25), command=lambda: 
 button.pack(pady=30)
 
 
-def save_and_play(entry_text):
-    language = main.detect_language(entry_text)
-    speech = gTTS(text=entry_text, lang=language, slow=False)
-    counter = 1
+def play_file(entry_text):
     for root, dirs, files in os.walk("./output/"):
         for file in files:
-            counter += 1
-    speech.save("./output/" + str(counter) + ".mp3")
-    os.system("afplay ./output/" + str(counter) + ".mp3")
-    print("Saved and played!")
+            if file == entry_text:
+                os.system("afplay ./output/" + str(file))
+                return
+
+
+var = tk.IntVar()
+checkbox = tk.Checkbutton(root, text="Play file", font=("Arial", 20), variable = var)
+checkbox.pack()
+
+
+def save_and_play(entry_text):
+    if var.get() == 1:
+        play_file(entry_text)
+    else:
+        language = detect_language(entry_text)
+        speech = gTTS(text=entry_text, lang=language, slow=False)
+        counter = 1
+        for root, dirs, files in os.walk("./output/"):
+            for file in files:
+                counter += 1
+        speech.save("./output/" + str(counter) + ".mp3")
+        os.system("afplay ./output/" + str(counter) + ".mp3")
+        print("Saved and played!")
 
 
 root.mainloop()

@@ -1,6 +1,8 @@
+import sys
 from gtts import gTTS
 import os
 from langdetect import detect
+
 
 
 def detect_language(line):
@@ -31,4 +33,4 @@ def text_to_speech(source_dir_path, output_path):
                             print('Error in converting text to speech or saving file')
 
 
-text_to_speech("/Users/lilschnapsidee/Documents/Facultate/Anul III Sem 1/Text2Speech/source", "./output/")
+text_to_speech(str(sys.argv[1]), str(sys.argv[2]))
